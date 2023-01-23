@@ -24,3 +24,20 @@
 
 1. React의 useEffect 관련해서 타입 에러 해결해보자.
 2. DB 연결 해보자. (Rust로는 처음이라 몬할수도 있을 것)
+
+
+## Day 2. Postgresql Setting
+
+목표는 달성하지 못함.
+Postgresql을 사용하기로 했는데 우분투 환경에서 세팅에 애를 먹었다.
+해결 방법은 링크의 로그인해서 서버를 키는 것
+
+https://dba.stackexchange.com/questions/182189/how-do-i-access-postgres-when-i-get-an-error-about-var-run-postgresql-s-pgsql
+
+DB 테스트 코드도 CookBook에서 복붙해오긴 했지만, 수정필요
+
+## Day3. 목표
+
+Day 2 와같다.
+1. React의 useEffect 관련해서 타입 에러 해결해보자.
+2. DB 연결 해보자. (Rust로는 처음이라 몬할수도 있을 것)
