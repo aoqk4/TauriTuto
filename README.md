@@ -25,7 +25,6 @@
 1. React의 useEffect 관련해서 타입 에러 해결해보자.
 2. DB 연결 해보자. (Rust로는 처음이라 몬할수도 있을 것)
 
-
 ## Day 2. Postgresql Setting
 
 목표는 달성하지 못함.
@@ -36,8 +35,24 @@ https://dba.stackexchange.com/questions/182189/how-do-i-access-postgres-when-i-g
 
 DB 테스트 코드도 CookBook에서 복붙해오긴 했지만, 수정필요
 
-## Day3. 목표
+## Day 3. 목표
 
 Day 2 와같다.
+
 1. React의 useEffect 관련해서 타입 에러 해결해보자.
 2. DB 연결 해보자. (Rust로는 처음이라 몬할수도 있을 것)
+
+## Day 3. Postgresql Setting & test execute DB query
+
+1. env를 통해 DB ID와 PW를 설정
+
+2. postgresql Create 쿼리문을 보내는 테스트 메소드 완성.
+   (dotenv, postgresql lib 사용)
+
+3. React Hook 관련해서는
+   https://willhart.io/post/tauri-create-react-app-tutorial-part3/ 참고해야겠다.
+
+## Day 4. 목표
+
+1. 프론트 디자인 구상해보자.
+2. API 형식으로 테스트 해보자.
