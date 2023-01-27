@@ -1,8 +1,16 @@
 #[cfg(test)]
 mod test {
-    use postgres::{Client, Error, NoTls};
+    use std::collections::HashMap;
+
+    use postgres::{Client, Error, NoTls, Row};
 
     use dotenv::dotenv;
+
+    struct Author {
+        _id: i32,
+        name: String,
+        country: String,
+    }
 
     #[test]
     fn test() -> Result<(), Error> {
@@ -21,15 +29,50 @@ mod test {
 
         let mut client = Client::connect(&url, NoTls)?;
 
-        client.batch_execute(
-            "
-            CREATE TABLE my_schema.author (
-                id              SERIAL PRIMARY KEY,
-                name            VARCHAR NOT NULL,
-                country         VARCHAR NOT NULL
-                )
-        ",
-        )?;
+        // CREATE CODE
+        // client.batch_execute(
+        //     "
+        //     CREATE TABLE my_schema.author (
+        //         id              SERIAL PRIMARY KEY,
+        //         name            VARCHAR NOT NULL,
+        //         country         VARCHAR NOT NULL
+        //         )
+        // ",
+        // )?;
+
+        // INSERT CODE
+        // let mut authors = HashMap::new();
+
+        // authors.insert(String::from("A"), "Korea");
+        // authors.insert(String::from("B"), "Japan");
+        // authors.insert(String::from("C"), "China");
+
+        // let mut cnt = 0;
+
+        // for (key, value) in authors {
+        //     let author = Author {
+        //         _id: cnt,
+        //         name: key.to_string(),
+        //         country: value.to_string(),
+        //     };
+
+        //     client.execute(
+        //         "INSERT INTO my_schema.author VALUES ($1, $2, $3)",
+        //         &[&author._id, &author.name, &author.country],
+        //     )?;
+
+        //     cnt += 1;
+        // }
+
+        for row in client.query("SELECT id, name, country FROM my_schema.author", &[])? {
+            let author = Author {
+                _id: row.get(0),
+                name: row.get(1),
+                country: row.get(2),
+            };
+
+            println!("{:?}", author.name);
+        }
 
         Ok(())
     }
