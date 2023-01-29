@@ -1,19 +1,16 @@
-#[cfg(test)]
-mod test {
-    use std::collections::HashMap;
-
-    use postgres::{Client, Error, NoTls, Row};
+pub mod post_db {
 
     use dotenv::dotenv;
-
+    use log::info;
+    use postgres::{Client, Error, NoTls, Row};
+    use std::collections::HashMap;
     struct Author {
         _id: i32,
         name: String,
         country: String,
     }
 
-    #[test]
-    fn test() -> Result<(), Error> {
+    pub fn init() -> Result<Client, Error> {
         dotenv().ok();
 
         let id = std::env::var("MY_DB_ID").expect("DB_ID must be set");
@@ -27,44 +24,57 @@ mod test {
         url.push_str(&password);
         url.push_str("@localhost/tauri_tuto");
 
-        let mut client = Client::connect(&url, NoTls)?;
+        let client = Client::connect(&url, NoTls);
 
+        client
+    }
+
+    pub fn post_create(mut cli: Client) -> Result<(), Error> {
         // CREATE CODE
-        // client.batch_execute(
-        //     "
-        //     CREATE TABLE my_schema.author (
-        //         id              SERIAL PRIMARY KEY,
-        //         name            VARCHAR NOT NULL,
-        //         country         VARCHAR NOT NULL
-        //         )
-        // ",
-        // )?;
+        cli.batch_execute(
+            "
+            CREATE TABLE my_schema.author (
+                id              SERIAL PRIMARY KEY,
+                name            VARCHAR NOT NULL,
+                country         VARCHAR NOT NULL
+                )
+        ",
+        )?;
 
+        Ok(())
+    }
+
+    pub fn post_insert(mut cli: Client) -> Result<(), Error> {
         // INSERT CODE
-        // let mut authors = HashMap::new();
+        let mut authors = HashMap::new();
 
-        // authors.insert(String::from("A"), "Korea");
-        // authors.insert(String::from("B"), "Japan");
-        // authors.insert(String::from("C"), "China");
+        authors.insert(String::from("D"), "Korea");
+        authors.insert(String::from("E"), "Japan");
+        authors.insert(String::from("F"), "China");
 
-        // let mut cnt = 0;
+        let mut cnt = 4;
 
-        // for (key, value) in authors {
-        //     let author = Author {
-        //         _id: cnt,
-        //         name: key.to_string(),
-        //         country: value.to_string(),
-        //     };
+        for (key, value) in authors {
+            let author = Author {
+                _id: cnt,
+                name: key.to_string(),
+                country: value.to_string(),
+            };
 
-        //     client.execute(
-        //         "INSERT INTO my_schema.author VALUES ($1, $2, $3)",
-        //         &[&author._id, &author.name, &author.country],
-        //     )?;
+            cli.execute(
+                "INSERT INTO my_schema.author VALUES ($1, $2, $3)",
+                &[&author._id, &author.name, &author.country],
+            )?;
 
-        //     cnt += 1;
-        // }
+            cnt += 1;
+        }
 
-        for row in client.query("SELECT id, name, country FROM my_schema.author", &[])? {
+        Ok(())
+    }
+
+    pub fn select_test(mut cli: Client) -> Result<(), Error> {
+        // SELECT CODE
+        for row in cli.query("SELECT id, name, country FROM my_schema.author", &[])? {
             let author = Author {
                 _id: row.get(0),
                 name: row.get(1),

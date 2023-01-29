@@ -32,7 +32,13 @@ export default function Home() {
       .catch(console.error);
   }
 
+  function dbConnect() {
+    invoke("simple_insert", {});
+  }
+
   operand();
+
+  dbConnect();
 
   useEffect(() => {
     invoke("greet", { name: "World" }).then(console.log).catch(console.error);
