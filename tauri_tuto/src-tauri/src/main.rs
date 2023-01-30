@@ -2,8 +2,8 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
-
-use app::post_db::{init, post_insert, select_test};
+use app::post_db::{init, post_insert};
+use postgres::Client;
 
 fn main() {
     tauri::Builder::default()
@@ -39,9 +39,8 @@ fn div(op1: i64, op2: i64) -> i64 {
 fn mul(op1: i64, op2: i64) -> i64 {
     op1 * op2
 }
-#[tauri::command]
-fn simple_insert() -> Result<(), String> {
-    post_insert(init().unwrap());
 
-    Ok(())
+#[tauri::command]
+fn simple_insert(name: &str, country: &str) {
+    post_insert(init().unwrap(), name, country);
 }

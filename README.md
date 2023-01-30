@@ -76,3 +76,13 @@ Day 2 와같다.
 
 1. 데이터 넣을 수 있게 프론트 수정해서 마음대로 DB에 넣게 하자..
 2. 비밀번호에 해시함수 적용 가능한지 알아보자.
+
+## Day 6. Invoke + input value test..
+
+1. useState 사용해서 데이터 넣고 DB에 INSERT는 가능하나, DB ID를 AUTO_INCREMENT로 수정하자..
+2. CookBook에서 Encrpytion이 가능한 코드를 찾았다. 일단 test mod에 넣고 실험하면서 돌려보자..
+
+## Day 7. 목표
+
+1. DB 수정하기(아니면 새로 파든가)
+2. Encrpyion 코드 건들여보자.

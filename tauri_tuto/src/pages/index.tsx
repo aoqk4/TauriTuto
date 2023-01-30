@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [txt, setTxt] = useState<string>("");
+
+  const [country, setCountry] = useState<string>("");
+
   function operand() {
     invoke("add", { op1: 4, op2: 2 })
       .then((result) => {
@@ -32,11 +36,11 @@ export default function Home() {
       .catch(console.error);
   }
 
-  function dbConnect() {
-    invoke("simple_insert", {});
+  function dbConnect(name: string, country: string) {
+    invoke("simple_insert", { name, country });
   }
 
-  operand();
+  // operand();
 
   dbConnect();
 
@@ -49,6 +53,19 @@ export default function Home() {
       <div className="bg-red-300">
         <h1 className="text-3xl font-bold underline"> Hello World!</h1>
       </div>
+      <input
+        className="bg-blue-300"
+        onChange={(event) => setTxt(event.target.value)}
+      ></input>
+      <button onClick={() => console.log(txt)}>asdf</button>
+      <hr></hr>
+      <input
+        className="bg-blue-300"
+        onChange={(event) => setTxt(event.target.value)}
+      ></input>
+      <button onClick={() => console.log(txt)}>asdf</button>
+      <hr></hr>
+      <button onClick={() => dbConnect(txt, country)}>asdf</button>
     </>
   );
 }
