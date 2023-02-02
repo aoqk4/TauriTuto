@@ -1,4 +1,5 @@
 use data_encoding::HEXUPPER;
+use postgres::{Client, Error, NoTls};
 use ring::error::Unspecified;
 use ring::rand::SecureRandom;
 use ring::{digest, pbkdf2, rand};
@@ -96,6 +97,33 @@ pub mod post_db {
 mod tests {
     use super::*;
 
+    struct Nation {
+        nationality: String,
+        count: i64,
+    }
+
+    #[test]
+    fn aggregate_data() -> Result<(), Error> {
+        let mut client = Client::connect("postgresql://postgres:postgres@127.0.0.1/moma", NoTls)?;
+
+        for row in client.query(
+            "SELECT nationality, COUNT(nationality) AS count 
+        FROM artists GROUP BY nationality ORDER BY count DESC",
+            &[],
+        )? {
+            let (nationality, count): (Option<String>, Option<i64>) = (row.get(0), row.get(1));
+
+            if nationality.is_some() && count.is_some() {
+                let nation = Nation {
+                    nationality: nationality.unwrap(),
+                    count: count.unwrap(),
+                };
+                println!("{} {}", nation.nationality, nation.count);
+            }
+        }
+
+        Ok(())
+    }
     #[test]
     fn encryption_test() -> Result<(), Unspecified> {
         const CREDENTIAL_LEN: usize = digest::SHA512_OUTPUT_LEN;
