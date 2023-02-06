@@ -40,10 +40,6 @@ export default function Home() {
     invoke("simple_insert", { name, country });
   }
 
-  // operand();
-
-  dbConnect();
-
   useEffect(() => {
     invoke("greet", { name: "World" }).then(console.log).catch(console.error);
   }, []);
@@ -61,9 +57,9 @@ export default function Home() {
       <hr></hr>
       <input
         className="bg-blue-300"
-        onChange={(event) => setTxt(event.target.value)}
+        onChange={(event) => setCountry(event.target.value)}
       ></input>
-      <button onClick={() => console.log(txt)}>asdf</button>
+      <button onClick={() => console.log(country)}>asdf</button>
       <hr></hr>
       <button onClick={() => dbConnect(txt, country)}>asdf</button>
     </>

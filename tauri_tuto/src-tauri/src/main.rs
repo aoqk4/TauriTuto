@@ -2,7 +2,7 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
-use app::post_db::{init, post_insert};
+use app::post_db::{init, post_create, post_insert};
 use postgres::Client;
 
 fn main() {
@@ -42,5 +42,7 @@ fn mul(op1: i64, op2: i64) -> i64 {
 
 #[tauri::command]
 fn simple_insert(name: &str, country: &str) {
+    // post_create(init().unwrap());
+
     post_insert(init().unwrap(), name, country);
 }
